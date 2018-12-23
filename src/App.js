@@ -1,8 +1,14 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import logo from './logo.svg';
 import './App.css';
+import {DeviceDiscovery} from 'sonos';
 
 class App extends Component {
+  componentDidMount() {
+    DeviceDiscovery(dev => {
+      console.log('device found at ' + dev.host);
+    });
+  }
   render() {
     return (
       <div className="App">
@@ -15,8 +21,7 @@ class App extends Component {
             className="App-link"
             href="https://reactjs.org"
             target="_blank"
-            rel="noopener noreferrer"
-          >
+            rel="noopener noreferrer">
             Learn React
           </a>
         </header>
