@@ -19,7 +19,7 @@ class App extends Component {
       .get(`${this.state.server}/players/`)
       .then(res => {
         console.log(res);
-        const players = [res.data.host];
+        const players = res.data;
         this.setState({players: players});
       })
       .catch(err => console.log());
@@ -30,7 +30,7 @@ class App extends Component {
       <div className="App">
         <h1>sonos players</h1>
         {this.state.players.length &&
-          this.state.players.map((p, i) => <h2 key={i}>{p}</h2>)}
+          this.state.players.map((p, i) => <h2 key={i}>{p.host}</h2>)}
       </div>
     );
   }

@@ -1,4 +1,4 @@
-const {DeviceDiscovery} = require('sonos');
+const {DeviceDiscovery, Sonos} = require('sonos');
 //const http = require('http');
 const express = require('express');
 const cors = require('cors');
@@ -22,7 +22,7 @@ const cors = require('cors');
  */
 
 const server = express();
-//server.use(cors());
+server.use(cors());
 //server.use(function(req, res, next) {
 //res.header('Access-Control-Allow-Origin', '*');
 //res.header(
@@ -31,6 +31,17 @@ const server = express();
 //);
 //next();
 //});
+let players = [];
+console.log('players', players);
+DeviceDiscovery(dev => {
+  console.log('in devic discovery');
+  //console.log(dev);
+  players.push(dev);
+  console.log('player added:', dev.host);
+});
+
+players = players.map(p => new Sonos(p.host));
+console.log('populate players', players);
 
 // handle requests to root of api: /
 server.get('/', (req, res) => {
@@ -39,13 +50,15 @@ server.get('/', (req, res) => {
 
 // GET hosts/players: returns a list of sonos players
 server.get('/players', (req, res) => {
-  DeviceDiscovery(dev => {
-    res.status(200).json(dev);
-    console.log(dev);
-  });
+  //DeviceDiscovery(dev => {
+  //res.status(200).json(dev);
+  //console.log(dev);
+  //});
+  res.status(200).json(players);
 });
 
 // GET player/:id/tracklist: returns the tracklist of the specific sonos
+//server.get('')
 // GET player/:id/currentTrack: returns the current track of the sonos
 
 // watch for connections
