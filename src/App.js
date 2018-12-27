@@ -17,11 +17,22 @@ class App extends Component {
       .catch(err => console.log());
     axios
       .get(`${this.state.server}/players/`)
-      .then(res => console.log(res))
+      .then(res => {
+        console.log(res);
+        const players = [res.data.host];
+        this.setState({players: players});
+      })
       .catch(err => console.log());
   }
+
   render() {
-    return <div className="App" />;
+    return (
+      <div className="App">
+        <h1>sonos players</h1>
+        {this.state.players.length &&
+          this.state.players.map((p, i) => <h2 key={i}>{p}</h2>)}
+      </div>
+    );
   }
 }
 
